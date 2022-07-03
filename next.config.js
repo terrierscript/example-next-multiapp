@@ -13,6 +13,10 @@ const appendConfig = (appMode) => {
           source: "/mainapp/:path*",
           destination: "/subapp",
           permanent: false,
+        }, {
+          source: "/api/mainapp/:path*",
+          destination: "/error",
+          permanent: false,
         }])
       }
     default:
@@ -20,6 +24,10 @@ const appendConfig = (appMode) => {
         redirects: async () => ([{
           source: "/subapp/:path*",
           destination: "/mainapp",
+          permanent: false,
+        }, {
+          source: "/api/subapp/:path*",
+          destination: "/error",
           permanent: false,
         }])
       }
