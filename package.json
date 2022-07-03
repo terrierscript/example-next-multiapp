@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:subapp": "APP_MODE=SUBAPP next dev -p 3002",
     "build": "next build",
     "start": "next start",
     "test": "vitest"
