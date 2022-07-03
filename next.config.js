@@ -9,27 +9,27 @@ const appendConfig = (appMode) => {
     case "SUBAPP":
       return {
         distDir: ".next-subapp",
-        redirects: async () => ([{
-          source: "/mainapp/:path*",
-          destination: "/subapp",
-          permanent: false,
-        }, {
-          source: "/api/mainapp/:path*",
-          destination: "/error",
-          permanent: false,
-        }])
+        // redirects: async () => ([{
+        //   source: "/mainapp/:path*",
+        //   destination: "/subapp",
+        //   permanent: false,
+        // }, {
+        //   source: "/api/mainapp/:path*",
+        //   destination: "/error",
+        //   permanent: false,
+        // }])
       }
     default:
       return {
-        redirects: async () => ([{
-          source: "/subapp/:path*",
-          destination: "/mainapp",
-          permanent: false,
-        }, {
-          source: "/api/subapp/:path*",
-          destination: "/error",
-          permanent: false,
-        }])
+        // redirects: async () => ([{
+        //   source: "/subapp/:path*",
+        //   destination: "/mainapp",
+        //   permanent: false,
+        // }, {
+        //   source: "/api/subapp/:path*",
+        //   destination: "/error",
+        //   permanent: false,
+        // }])
       }
   }
 }
