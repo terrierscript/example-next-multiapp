@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:subapp": "APP_MODE=SUBAPP next dev -p 3002",
+    "dev": "next dev app-mainapp",
+    "dev:subapp": "next dev app-subapp",
     "build": "next build",
     "start": "next start",
     "test": "vitest"

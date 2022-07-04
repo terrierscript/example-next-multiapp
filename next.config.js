@@ -1,54 +1,29 @@
+// @ts-nocheck
 
-
-/**
- * @return {import('next').NextConfig}
- * @param appMode {string}
- */
-const appendConfig = (appMode) => {
-  switch (appMode) {
-    case "SUBAPP":
-      return {
-        distDir: ".next-subapp",
-        redirects: async () => ([{
-          source: "/mainapp/:path*",
-          destination: "/subapp",
-          permanent: false,
-        }, {
-          source: "/api/mainapp/:path*",
-          destination: "/error",
-          permanent: false,
-        }])
-      }
-    default:
-      return {
-        redirects: async () => ([{
-          source: "/subapp/:path*",
-          destination: "/mainapp",
-          permanent: false,
-        }, {
-          source: "/api/subapp/:path*",
-          destination: "/error",
-          permanent: false,
-        }])
-      }
+const appendRootDir = (rule) => {
+  if (Array.isArray(rule?.include) && !rule?.include?.includes(__dirname)) {
+    rule.include?.push(__dirname)
   }
+  return rule
 }
 
-/**
- * @type {import('next').NextConfig}
- */
-const baseAppConfig = {
-  pageExtensions: ["tsx","ts", "page.tsx", "page.ts"]
+const appendIncludeRules = (rule) => {
+  if (Array.isArray(rule.oneOf)) {
+    return {
+      oneOf: rule.oneOf.map(rule => appendRootDir(rule))
+    }
+  }
+  if (rule?.use?.loader !== "next-swc-loader") {
+    return rule
+  }
+  return appendRootDir(rule)
 }
 
-/**
- * @return {import('next').NextConfig}
- */
-module.exports = () => {
-  const appMode = process.env.APP_MODE ?? ""
-  const config = appendConfig(appMode)
-  return {
-    ...baseAppConfig,
-    ...config
+module.exports = {
+  webpack: (config) => {
+    config.module.rules.map(rule => {
+      return appendIncludeRules(rule)
+    })
+    return config
   }
 }
