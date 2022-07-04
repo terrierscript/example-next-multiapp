@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev app-mainapp",
-    "dev:subapp": "next dev app-subapp",
+    "dev:subapp": "next dev app-subapp -p 3002",
     "build": "next build",
     "start": "next start",
     "test": "vitest"
