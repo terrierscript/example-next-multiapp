@@ -1,28 +1,25 @@
 // @ts-nocheck
 
 const appendRootDir = (rule) => {
-  if (Array.isArray(rule?.include) && !rule?.include?.includes(__dirname)) {
-    rule.include?.push(__dirname)
-  }
-  return rule
-}
-
-const appendIncludeRules = (rule) => {
-  if (Array.isArray(rule.oneOf)) {
-    return {
-      oneOf: rule.oneOf.map(rule => appendRootDir(rule))
-    }
-  }
-  if (rule?.use?.loader !== "next-swc-loader") {
+  if (!Array.isArray(rule?.include)) {
     return rule
   }
-  return appendRootDir(rule)
+  rule.include = [...rule.include, __dirname]    
+  return rule
 }
 
 module.exports = {
   webpack: (config) => {
     config.module.rules.map(rule => {
-      return appendIncludeRules(rule)
+      if (Array.isArray(rule.oneOf)) {
+        return {
+          oneOf: rule.oneOf.map(rule => appendRootDir(rule))
+        }
+      }
+      if (rule?.use?.loader !== "next-swc-loader") {
+        return rule
+      }
+      return appendRootDir(rule)
     })
     return config
   }
